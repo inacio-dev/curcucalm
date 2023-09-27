@@ -5,10 +5,15 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)'],
+        sans: ['var(--font-lora)'],
       },
       colors: {
-        brand: {},
+        brand: {
+          'palatinate-blue': '#1843D5',
+          'cocoa-brown': '#D56D18',
+          'pine-green': '#18745F',
+          crimson: '#D51833',
+        },
         slate: {
           light: {
             1: '#fcfcfd',

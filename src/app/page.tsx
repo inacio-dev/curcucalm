@@ -1,7 +1,13 @@
+import Carousel from '../components/Carousel'
+import Initital from '../components/Initital'
+import Order from '../components/Order'
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen w-full items-center justify-center text-3xl text-slate-dark-1">
-      <h1>Next Template Teams</h1>
+    <main className="flex min-h-[calc(100vh-83px-56px)] w-full flex-col items-start justify-center bg-slate-light-3 md:min-h-[calc(100vh-83px-96px)]">
+      <Initital />
+      <Carousel />
+      <Order />
     </main>
   )
 }
