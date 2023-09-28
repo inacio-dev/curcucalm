@@ -123,7 +123,7 @@ export default function Carousel() {
           </div>
           <div className="h-[4px] w-full rounded-full bg-[#C1C8CD]" />
         </div>
-        <div className="absolute bottom-[24px] left-[50%] z-50 flex translate-x-[-50%] items-center gap-[30px] md:left-[48px] md:translate-x-0 lg:left-[96px]">
+        <div className="absolute bottom-[24px] left-[50%] z-20 flex translate-x-[-50%] items-center gap-[30px] md:left-[48px] md:translate-x-0 lg:left-[96px]">
           <button onClick={() => instanceRef.current?.prev()}>
             <ChevronLeft className="text-[48px] md:text-[68px]" />
           </button>

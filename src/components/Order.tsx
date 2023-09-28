@@ -285,7 +285,7 @@ export default function Order(props: OrderProps) {
 
         <div className="mt-5 flex flex-col gap-5 md:flex-row md:items-center md:gap-[50px]">
           <CreateOrderLink
-            selectedCouponLink={selectedCouponLink}
+            couponLink={selectedCouponLink}
             coupon={selectedCoupon}
             value={
               quantityToDetailsMap[selectedQuantity]['price'] || quantityToDetailsMap['5']['price']
