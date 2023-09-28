@@ -1,14 +1,14 @@
 import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
-import PlayArrowIcon from '@mui/icons-material/PlayArrow'
-import ShareIcon from '@mui/icons-material/Share'
 import StarRateIcon from '@mui/icons-material/StarRate'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import clsx from 'clsx'
 
 import oneFrascosLg from '../assets/1-frasco-lg.png'
 import threeFrascosLg from '../assets/3-frascos-lg.png'
+import threePlusFrascosLg from '../assets/3+1-frascos-lg.png'
 import fiveFrascosLg from '../assets/5-frascos-lg.png'
+import fivePlusFrascosLg from '../assets/5+1-frascos-lg.png'
 import eco from '../assets/eco-friendly.png'
 import gluten from '../assets/gluten-free.png'
 import natural from '../assets/natural.png'
@@ -26,6 +26,12 @@ const quantityToImageMap: { [key: string]: StaticImageData } = {
   '1': oneFrascosLg,
   '3': threeFrascosLg,
   '5': fiveFrascosLg,
+}
+
+const quantityToImagePlusMap: { [key: string]: StaticImageData } = {
+  '1': oneFrascosLg,
+  '3': threePlusFrascosLg,
+  '5': fivePlusFrascosLg,
 }
 
 type detailsProps = {
@@ -71,7 +77,10 @@ const quantityToDetailsMap: { [key: string]: detailsProps } = {
 export default function Order(props: OrderProps) {
   const selectedQuantity = (props.searchParams.quantity || '5') as string
   const selectedCoupon = (props.searchParams.coupon || '') as string
-  const selectedImage = quantityToImageMap[selectedQuantity] || fiveFrascosLg
+  const selectedImage =
+    selectedCoupon === 'queromais'
+      ? quantityToImagePlusMap[selectedQuantity] || fivePlusFrascosLg
+      : quantityToImageMap[selectedQuantity] || fiveFrascosLg
 
   const selectedCouponLink =
     selectedCoupon === 'queromais'
@@ -91,14 +100,10 @@ export default function Order(props: OrderProps) {
           Monte seu pedido!
         </h2>
 
-        <div className="col-span-1 my-10 flex max-h-[554px] w-full items-center justify-center md:hidden">
-          <div className="relative h-full w-full rounded-lg bg-slate-light-4 px-20 pb-4 pt-20 shadow-md">
-            <Image src={selo} alt="" className="absolute right-14 top-14" />
-            <Image
-              src={selectedImage}
-              alt=""
-              className="md:h-[152px] md:w-[152px] lg:h-auto lg:w-auto"
-            />
+        <div className="col-span-1 my-10 flex h-[400px] max-h-[554px] w-full items-center justify-center sm:h-[450px] md:hidden">
+          <div className="relative flex h-full w-full flex-col items-center justify-center rounded-lg bg-slate-light-4 shadow-md">
+            <Image src={selo} alt="" className="absolute right-4 top-4" />
+            <Image src={selectedImage} alt="" className="h-auto w-auto" />
 
             <div className="grid grid-cols-2 gap-4 pt-2 text-[14px]">
               <div className="inline-flex items-center gap-1.5">
@@ -195,14 +200,10 @@ export default function Order(props: OrderProps) {
         </div>
       </div>
 
-      <div className="col-span-1 hidden max-h-[554px] w-full items-center justify-center md:col-span-5 md:flex">
-        <div className="relative h-full w-full rounded-lg bg-slate-light-4 px-20 pb-4 pt-20 shadow-md">
-          <Image src={selo} alt="" className="absolute right-14 top-14" />
-          <Image
-            src={selectedImage}
-            alt=""
-            className="md:h-[152px] md:w-[152px] lg:h-auto lg:w-auto"
-          />
+      <div className="col-span-1 hidden h-[450px] max-h-[450px] w-full items-center justify-center md:col-span-5 md:flex">
+        <div className="relative flex h-full w-full flex-col items-center justify-center rounded-lg bg-slate-light-4 shadow-md">
+          <Image src={selo} alt="" className="absolute right-5 top-5" />
+          <Image src={selectedImage} alt="" className="h-auto w-auto" />
 
           <div className="grid grid-cols-2 gap-4 pt-2 text-[14px]">
             <div className="inline-flex items-center gap-1.5">
@@ -242,7 +243,7 @@ export default function Order(props: OrderProps) {
                     selectedQuantity === quantity ? 'border-slate-dark-4' : 'border-slate-light-4',
                   )}
                 >
-                  <span className={clsx(selectedQuantity === quantity && 'font-bold')}>
+                  <span className={clsx('w-full', selectedQuantity === quantity && 'font-bold')}>
                     {quantity}{' '}
                     {quantity === '1'
                       ? 'frasco'
