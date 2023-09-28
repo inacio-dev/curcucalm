@@ -2,7 +2,7 @@
 
 import 'keen-slider/keen-slider.min.css'
 
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, PauseCircle } from '@mui/icons-material'
 import clsx from 'clsx'
@@ -16,74 +16,59 @@ const AUTO_SLIDE_INTERVAL = 15 * 1000
 
 export default function Carousel() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [isIntervalPaused, setIsIntervalPaused] = useState(true)
   const [isPaused, setIsPaused] = React.useState(false)
-  const [sliderRef, instanceRef] = useKeenSlider(
-    {
-      loop: true,
-      slideChanged(slider) {
-        setCurrentSlide(slider.track.details.rel)
-      },
-    },
-    [
-      (slider) => {
-        let timeout: ReturnType<typeof setTimeout>
-        let mouseOver = false
-        function clearNextTimeout() {
-          clearTimeout(timeout)
-          // clearInterval(intervalRef.current)
-          setIsPaused(true)
-          setIsIntervalPaused(true)
-          // setSlideInterval(15)
-        }
-        function nextTimeout() {
-          clearTimeout(timeout)
-          clearInterval(intervalRef.current)
-          if (mouseOver) return
-          setIsIntervalPaused(false)
-          setIsPaused(false)
-          timeout = setTimeout(() => {
-            slider.next()
-          }, AUTO_SLIDE_INTERVAL)
-        }
-        slider.on('created', () => {
-          slider.container.addEventListener('pointerdown', () => {
-            mouseOver = true
-            clearNextTimeout()
-          })
-          slider.container.addEventListener('pointerup', () => {
-            mouseOver = false
-            setIsPaused(true)
-            nextTimeout()
-          })
-          nextTimeout()
-          setIsIntervalPaused(false)
-        })
-        slider.on('dragStarted', clearNextTimeout)
-        slider.on('animationStarted', () => {
-          setSlideInterval(15)
-          clearInterval(intervalRef.current)
-          setIsIntervalPaused(true)
-        })
-        slider.on('animationEnded', nextTimeout)
-        slider.on('updated', nextTimeout)
-      },
-    ],
-  )
-
   const [slideInterval, setSlideInterval] = React.useState(15)
+  const timeoutRef = React.useRef(0)
   const intervalRef = React.useRef(0)
 
-  React.useEffect(() => {
-    if (!isIntervalPaused) {
-      intervalRef.current = window.setInterval(() => {
-        setSlideInterval((prevInterval) => prevInterval - 1)
-      }, 1000)
-      return () => {
-        window.clearInterval(intervalRef.current)
-      }
+  const handlePause = () => {
+    window.clearTimeout(timeoutRef.current)
+    window.clearInterval(intervalRef.current)
+    setIsPaused(true)
+  }
+
+  const [sliderRef, instanceRef] = useKeenSlider({
+    loop: true,
+    slideChanged(slider) {
+      setCurrentSlide(slider.track.details.rel)
+    },
+  })
+
+  const startPlay = useCallback(() => {
+    clearTimeout(timeoutRef.current)
+    clearInterval(intervalRef.current)
+    setIsPaused(false)
+    setSlideInterval(15)
+    timeoutRef.current = window.setTimeout(() => {
+      instanceRef.current?.next()
+    }, AUTO_SLIDE_INTERVAL)
+    intervalRef.current = window.setInterval(() => {
+      setSlideInterval((prevInterval) => {
+        const nextInterval = prevInterval - 1
+        if (nextInterval === 0) return 15
+        return nextInterval
+      })
+    }, 1000)
+  }, [instanceRef])
+
+  useEffect(() => {
+    startPlay()
+
+    instanceRef.current?.on('animationEnded', () => {
+      startPlay()
+    })
+
+    instanceRef.current?.on('dragStarted', () => {
+      clearTimeout(timeoutRef.current)
+      clearInterval(intervalRef.current)
+      setSlideInterval(15)
+    })
+
+    return () => {
+      clearTimeout(timeoutRef.current)
+      clearInterval(intervalRef.current)
     }
-  }, [isIntervalPaused])
+  }, [instanceRef, startPlay])
 
   return (
     <section id="carousel" className="flex w-full items-center justify-center pt-20 md:px-[35px]">
@@ -95,7 +80,10 @@ export default function Carousel() {
           <div className="mx-auto flex w-full max-w-[490px] text-center [&>*]:flex-1">
             <span
               className="relative cursor-pointer pb-[10px]"
-              onClick={() => instanceRef.current?.moveToIdx(0)}
+              onClick={() => {
+                instanceRef.current?.moveToIdx(0)
+                setSlideInterval(15)
+              }}
             >
               Sobre
               {currentSlide === 0 && (
@@ -104,7 +92,10 @@ export default function Carousel() {
             </span>
             <span
               className="relative cursor-pointer pb-[10px]"
-              onClick={() => instanceRef.current?.moveToIdx(1)}
+              onClick={() => {
+                instanceRef.current?.moveToIdx(1)
+                setSlideInterval(15)
+              }}
             >
               Farmácia
               {currentSlide === 1 && (
@@ -113,7 +104,10 @@ export default function Carousel() {
             </span>
             <span
               className="relative cursor-pointer pb-[10px]"
-              onClick={() => instanceRef.current?.moveToIdx(2)}
+              onClick={() => {
+                instanceRef.current?.moveToIdx(2)
+                setSlideInterval(15)
+              }}
             >
               Curcucalm
               {currentSlide === 2 && (
@@ -124,13 +118,28 @@ export default function Carousel() {
           <div className="h-[4px] w-full rounded-full bg-[#C1C8CD]" />
         </div>
         <div className="absolute bottom-[24px] left-[50%] z-20 flex translate-x-[-50%] items-center gap-[30px] md:left-[48px] md:translate-x-0 lg:left-[96px]">
-          <button onClick={() => instanceRef.current?.prev()}>
+          <button
+            onClick={() => {
+              instanceRef.current?.prev()
+              setSlideInterval(15)
+            }}
+          >
             <ChevronLeft className="text-[48px] md:text-[68px]" />
           </button>
-          <span className="inline-flex h-[68px] w-[68px] items-center justify-center text-[24px] font-bold tabular-nums md:text-[38px]">
+          <span
+            className="inline-flex h-[68px] w-[68px] cursor-pointer items-center justify-center rounded-full text-[24px] font-bold tabular-nums transition-transform duration-150 active:scale-95 md:text-[38px]"
+            onClick={() => {
+              isPaused ? startPlay() : handlePause()
+            }}
+          >
             {isPaused ? <PauseCircle className="text-[38px]" /> : `${slideInterval}s`}
           </span>
-          <button onClick={() => instanceRef.current?.next()}>
+          <button
+            onClick={() => {
+              instanceRef.current?.next()
+              setSlideInterval(15)
+            }}
+          >
             <ChevronRight className="text-[48px] md:text-[68px]" />
           </button>
         </div>
