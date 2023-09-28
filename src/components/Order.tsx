@@ -233,10 +233,9 @@ export default function Order(props: OrderProps) {
             {quantityVariants.map((quantity, index) => (
               <li key={index} className="inline-flex">
                 <Link
-                  href={`?${new URLSearchParams({
-                    quantity,
-                    coupon: selectedCoupon,
-                  })}`}
+                  href={{
+                    query: { quantity, coupon: selectedCoupon },
+                  }}
                   replace
                   scroll={false}
                   className={clsx(
