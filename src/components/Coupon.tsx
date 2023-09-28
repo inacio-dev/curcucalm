@@ -20,6 +20,7 @@ export default function Coupon(props: CouponProps) {
   const [ref, inView] = useInView()
   const [coupon, setCoupon] = useState(props.coupon)
   const [openDialog, setOpenDialog] = useState(false)
+  const [openQuantityDialog, setOpenQuantityDialog] = useState(false)
 
   function notify(value: 'success' | 'error') {
     value === 'success'
@@ -35,7 +36,10 @@ export default function Coupon(props: CouponProps) {
   }, [props.coupon])
 
   useEffect(() => {
-    inView && props.coupon !== 'queromais' && setOpenDialog(true)
+    if (inView && props.coupon !== 'queromais' && !openQuantityDialog) {
+      setOpenDialog(true)
+      setOpenQuantityDialog(true)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 

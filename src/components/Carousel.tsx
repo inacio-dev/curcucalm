@@ -11,6 +11,7 @@ import { useKeenSlider } from 'keen-slider/react'
 import slide1 from '../assets/curcuma-slide-1.png'
 import slide2 from '../assets/curcuma-slide-2.png'
 import slide3 from '../assets/curcuma-slide-3.png'
+import scrollTo from '../utils/scrollTo'
 
 const AUTO_SLIDE_INTERVAL = 15 * 1000
 
@@ -155,16 +156,23 @@ export default function Carousel() {
                 propriedades antioxidantes e anti-inflamatórias. Estudos científicos confirmam sua
                 eficácia na redução da <strong>dor muscular</strong> e <strong>inflamação</strong>.
               </p>
-              <button className="mt-[34px] h-[42px] rounded-lg bg-brand-pine-green px-[52px] text-center font-bold uppercase text-slate-light-3">
+              <button
+                onClick={() => {
+                  instanceRef.current?.next()
+                  setSlideInterval(15)
+                }}
+                className="mt-[34px] h-[42px] rounded-lg bg-brand-pine-green px-[52px] text-center font-bold uppercase text-slate-light-3"
+              >
                 Mostre mais
               </button>
             </div>
             <div
               className={clsx(
-                'absolute',
+                'absolute -z-10',
                 'right-[-85px] top-[40px] w-[175px]',
-                'md:right-[-117px] md:top-[1px] md:w-[218px]',
-                'lg:right-[122px] lg:h-[657px] lg:w-[253px]',
+                'sm:right-[-117px] sm:top-[1px] sm:w-[218px]',
+                'md:right-[-60px] md:top-[1px] md:w-[218px]',
+                'lg:right-0 lg:h-[657px] lg:w-[253px]',
               )}
             >
               <Image src={slide1} alt="" />
@@ -185,16 +193,23 @@ export default function Carousel() {
                 <strong>efeitos notáveis</strong> em poucos minutos.
               </p>
 
-              <button className="mt-[39px] h-[42px] rounded-lg bg-brand-pine-green px-[52px] text-center font-bold uppercase text-slate-light-3">
+              <button
+                onClick={() => {
+                  instanceRef.current?.next()
+                  setSlideInterval(15)
+                }}
+                className="mt-[39px] h-[42px] rounded-lg bg-brand-pine-green px-[52px] text-center font-bold uppercase text-slate-light-3"
+              >
                 Curcucalm
               </button>
             </div>
             <div
               className={clsx(
-                'absolute',
+                'absolute -z-10',
                 'right-[-85px] top-[40px] w-[175px]',
-                'md:right-[-117px] md:top-[1px] md:w-[218px]',
-                'lg:right-[122px] lg:h-[657px] lg:w-[253px]',
+                'sm:right-[-117px] sm:top-[1px] sm:w-[218px]',
+                'md:right-[-60px] md:top-[1px] md:w-[218px]',
+                'lg:right-0 lg:h-[657px] lg:w-[253px]',
               )}
             >
               <Image src={slide2} alt="" />
@@ -214,16 +229,20 @@ export default function Carousel() {
                 gotas <strong>sob a língua</strong>. Aguarde <strong>30 segundos</strong> para
                 melhor absorção. Tome <strong>uma vez ao dia</strong>, de preferência pela manhã.
               </p>
-              <button className="mt-[20px] h-[42px] rounded-lg bg-brand-crimson px-[52px] text-center font-bold uppercase text-slate-light-3">
+              <button
+                onClick={() => scrollTo('order')}
+                className="mt-[20px] h-[42px] rounded-lg bg-brand-crimson px-[52px] text-center font-bold uppercase text-slate-light-3"
+              >
                 Comprar agora
               </button>
             </div>
             <div
               className={clsx(
-                'absolute',
+                'absolute -z-10',
                 'right-[-85px] top-[40px] w-[175px]',
-                'md:right-[-117px] md:top-[1px] md:w-[218px]',
-                'lg:right-[122px] lg:h-[657px] lg:w-[253px]',
+                'sm:right-[-117px] sm:top-[1px] sm:w-[218px]',
+                'md:right-[-60px] md:top-[1px] md:w-[218px]',
+                'lg:right-0 lg:h-[657px] lg:w-[253px]',
               )}
             >
               <Image src={slide3} alt="" />
