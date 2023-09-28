@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 import CheckIcon from '@mui/icons-material/Check'
 import ClearIcon from '@mui/icons-material/Clear'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
@@ -14,6 +13,7 @@ import CouponDialog from './CouponDialog'
 type CouponProps = {
   quantity: string
   coupon: string
+  onCouponChange: (coupon: string) => void
 }
 
 export default function Coupon(props: CouponProps) {
@@ -45,7 +45,12 @@ export default function Coupon(props: CouponProps) {
 
   return (
     <>
-      <CouponDialog quantity={props.quantity} open={openDialog} onOpenChange={setOpenDialog} />
+      <CouponDialog
+        quantity={props.quantity}
+        open={openDialog}
+        onOpenChange={setOpenDialog}
+        onCouponChange={props.onCouponChange}
+      />
 
       <div ref={ref} className="mt-[18px]">
         <div className="flex justify-between overflow-hidden rounded-lg border-2 border-slate-light-4 md:max-w-[312px]">
@@ -57,20 +62,12 @@ export default function Coupon(props: CouponProps) {
             placeholder="Adicionar cupom"
           />
 
-          <Link
-            href={
-              props.coupon !== ''
-                ? `?${new URLSearchParams({
-                    quantity: props.quantity,
-                    coupon: '',
-                  })}`
-                : `?${new URLSearchParams({
-                    quantity: props.quantity,
-                    coupon,
-                  })}`
-            }
-            replace
-            scroll={false}
+          <button
+            onClick={() => {
+              props.onCouponChange(
+                props.coupon !== '' && props.coupon.toLowerCase() !== 'queromais' ? '' : coupon,
+              )
+            }}
             className={clsx(
               'inline-flex items-center justify-center rounded-lg px-3 transition-colors duration-1000',
               props.coupon !== ''
@@ -91,7 +88,7 @@ export default function Coupon(props: CouponProps) {
             ) : (
               <PlayArrowIcon className="fill-slate-light-3" />
             )}
-          </Link>
+          </button>
         </div>
       </div>
     </>

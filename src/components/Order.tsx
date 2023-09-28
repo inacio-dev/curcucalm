@@ -1,7 +1,8 @@
+'use client'
+
+import { useState } from 'react'
 import Image, { StaticImageData } from 'next/image'
-import Link from 'next/link'
 import StarRateIcon from '@mui/icons-material/StarRate'
-import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import clsx from 'clsx'
 
 import oneFrascosLg from '../assets/1-frasco-lg.png'
@@ -18,11 +19,6 @@ import Coupon from './Coupon'
 import CreateOrderLink from './CreateOrderLink'
 import UseModeLink from './UseModeLink'
 import WhatsAppLink from './WhatsappLink'
-
-type OrderProps = {
-  quantity: string
-  coupon: string
-}
 
 const quantityVariants = ['5', '3', '1']
 
@@ -78,9 +74,11 @@ const quantityToDetailsMap: { [key: string]: detailsProps } = {
   },
 }
 
-export default function Order({ quantity, coupon }: OrderProps) {
-  const selectedQuantity = (quantity || '5') as string
-  const selectedCoupon = (coupon || '') as string
+export default function Order() {
+  const [quantity, setQuantity] = useState('5')
+  const [coupon, setCoupon] = useState('')
+  const selectedQuantity = quantity
+  const selectedCoupon = coupon
   const selectedImage =
     selectedCoupon === 'queromais'
       ? quantityToImagePlusMap[selectedQuantity] || fivePlusFrascosLg
@@ -90,7 +88,7 @@ export default function Order({ quantity, coupon }: OrderProps) {
     selectedCoupon === 'queromais'
       ? selectedQuantity !== '1'
         ? quantityToDetailsMap[selectedQuantity]['plus-link'] ||
-          quantityToDetailsMap['5']['plus-link']
+        quantityToDetailsMap['5']['plus-link']
         : quantityToDetailsMap[selectedQuantity]['link'] || quantityToDetailsMap['5']['link']
       : quantityToDetailsMap[selectedQuantity]['link'] || quantityToDetailsMap['5']['link']
 
@@ -233,13 +231,10 @@ export default function Order({ quantity, coupon }: OrderProps) {
           <ul className="mt-[30px] flex flex-wrap gap-4 md:max-w-[592px] [&>*]:flex-[1_1_154px]">
             {quantityVariants.map((quantity, index) => (
               <li key={index} className="inline-flex">
-                <Link
-                  href={`?${new URLSearchParams({
-                    quantity,
-                    coupon: selectedCoupon,
-                  })}`}
-                  replace
-                  scroll={false}
+                <button
+                  onClick={() => {
+                    setQuantity(quantity)
+                  }}
                   className={clsx(
                     'flex h-[52px] w-full items-center justify-center rounded-lg border-2 px-[46px] text-center font-normal transition-colors duration-300 hover:border-slate-dark-6 hover:font-bold',
                     selectedQuantity === quantity ? 'border-slate-dark-4' : 'border-slate-light-4',
@@ -250,17 +245,17 @@ export default function Order({ quantity, coupon }: OrderProps) {
                     {quantity === '1'
                       ? 'frasco'
                       : selectedCoupon === 'queromais'
-                      ? 'frascos + 1'
-                      : 'frascos'}
+                        ? 'frascos + 1'
+                        : 'frascos'}
                   </span>
-                </Link>
+                </button>
               </li>
             ))}
           </ul>
         </div>
 
         <div className="flex items-end space-x-4">
-          <Coupon quantity={selectedQuantity} coupon={selectedCoupon} />
+          <Coupon quantity={selectedQuantity} coupon={selectedCoupon} onCouponChange={setCoupon} />
 
           {selectedCoupon === 'queromais' ? (
             <>

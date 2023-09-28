@@ -1,13 +1,13 @@
 'use client'
 
-import React, { ReactNode } from 'react'
-import Link from 'next/link'
+import React from 'react'
 import ClearIcon from '@mui/icons-material/Clear'
 import * as Dialog from '@radix-ui/react-dialog'
 
 type CouponDialogProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
+  onCouponChange: (coupon: string) => void
   quantity: string
 }
 
@@ -29,18 +29,15 @@ export default function CouponDialog(props: CouponDialogProps) {
 
           <div className="mt-[25px] flex justify-end">
             <Dialog.Close asChild>
-              <Link
-                href={`?${new URLSearchParams({
-                  quantity: props.quantity,
-                  coupon: 'queromais',
-                })}`}
-                replace
-                scroll={false}
-                onClick={() => dataLayerPushSelectContent('S_APLICAR_CUPOM')}
+              <button
+                onClick={() => {
+                  props.onCouponChange('queromais')
+                  dataLayerPushSelectContent('S_APLICAR_CUPOM')
+                }}
                 className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-brand-pine-green px-[15px] font-medium leading-none text-slate-light-3 transition-colors duration-300 hover:bg-brand-pine-green/60 focus:shadow-[0_0_0_2px] focus:outline-none"
               >
                 Aplicar cupom
-              </Link>
+              </button>
             </Dialog.Close>
           </div>
           <Dialog.Close asChild>
