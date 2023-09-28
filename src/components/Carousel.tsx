@@ -12,6 +12,7 @@ import slide1 from '../assets/curcuma-slide-1.png'
 import slide2 from '../assets/curcuma-slide-2.png'
 import slide3 from '../assets/curcuma-slide-3.png'
 import scrollTo from '../utils/scrollTo'
+import { dataLayerPushSelectContent } from './CouponDialog'
 
 const AUTO_SLIDE_INTERVAL = 15 * 1000
 
@@ -160,6 +161,7 @@ export default function Carousel() {
                 onClick={() => {
                   instanceRef.current?.next()
                   setSlideInterval(15)
+                  dataLayerPushSelectContent('S_CURCUMA')
                 }}
                 className="mt-[34px] h-[42px] rounded-lg bg-brand-pine-green px-[52px] text-center font-bold uppercase text-slate-light-3"
               >
@@ -197,6 +199,7 @@ export default function Carousel() {
                 onClick={() => {
                   instanceRef.current?.next()
                   setSlideInterval(15)
+                  dataLayerPushSelectContent('S_FARMACIA')
                 }}
                 className="mt-[39px] h-[42px] rounded-lg bg-brand-pine-green px-[52px] text-center font-bold uppercase text-slate-light-3"
               >
@@ -230,7 +233,10 @@ export default function Carousel() {
                 melhor absorção. Tome <strong>uma vez ao dia</strong>, de preferência pela manhã.
               </p>
               <button
-                onClick={() => scrollTo('order')}
+                onClick={() => {
+                  scrollTo('order')
+                  dataLayerPushSelectContent('S_ORDER')
+                }}
                 className="mt-[20px] h-[42px] rounded-lg bg-brand-crimson px-[52px] text-center font-bold uppercase text-slate-light-3"
               >
                 Comprar agora

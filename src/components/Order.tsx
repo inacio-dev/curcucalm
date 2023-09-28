@@ -17,6 +17,7 @@ import vegano from '../assets/vegano.png'
 import Coupon from './Coupon'
 import CreateOrderLink from './CreateOrderLink'
 import UseModeLink from './UseModeLink'
+import WhatsAppLink from './WhatsappLink'
 
 type OrderProps = {
   searchParams: { [key: string]: string | string[] | undefined }
@@ -292,13 +293,7 @@ export default function Order(props: OrderProps) {
             }
           />
 
-          <Link
-            href="https://wa.me/5511930455232"
-            className="flex items-center justify-center gap-3.5"
-          >
-            <WhatsAppIcon />
-            <span className="font-bold uppercase">Fale conosco</span>
-          </Link>
+          <WhatsAppLink />
         </div>
 
         <div className="mt-[40px] block max-w-[336px] text-[16px] uppercase leading-[26px] md:hidden lg:max-w-[484px]">

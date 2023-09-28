@@ -36,6 +36,7 @@ export default function CouponDialog(props: CouponDialogProps) {
                 })}`}
                 replace
                 scroll={false}
+                onClick={() => dataLayerPushSelectContent('S_APLICAR_CUPOM')}
                 className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-brand-pine-green px-[15px] font-medium leading-none text-slate-light-3 transition-colors duration-300 hover:bg-brand-pine-green/60 focus:shadow-[0_0_0_2px] focus:outline-none"
               >
                 Aplicar cupom
@@ -54,4 +55,12 @@ export default function CouponDialog(props: CouponDialogProps) {
       </Dialog.Portal>
     </Dialog.Root>
   )
+}
+
+export function dataLayerPushSelectContent(content_id: string) {
+  window.dataLayer.push({
+    content_type: 'section',
+    content_id,
+    event: 'select_content',
+  })
 }
