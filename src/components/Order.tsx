@@ -237,6 +237,7 @@ export default function Order(props: OrderProps) {
                     quantity,
                     coupon: selectedCoupon,
                   })}`}
+                  replace
                   scroll={false}
                   className={clsx(
                     'flex h-[52px] w-full items-center justify-center rounded-lg border-2 px-[46px] text-center font-normal transition-colors duration-300 hover:border-slate-dark-6 hover:font-bold',
