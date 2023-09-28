@@ -204,7 +204,7 @@ export default function Order(props: OrderProps) {
       <div className="col-span-1 hidden h-[450px] max-h-[450px] w-full items-center justify-center md:col-span-5 md:flex">
         <div className="relative flex h-full w-full flex-col items-center justify-center rounded-lg bg-slate-light-4 shadow-md">
           <Image src={selo} alt="" className="absolute right-5 top-5" />
-          <Image src={selectedImage} alt="" className="h-auto w-auto" />
+          {/* <Image src={selectedImage} alt="" className="h-auto w-auto" /> */}
 
           <div className="grid grid-cols-2 gap-4 pt-2 text-[14px]">
             <div className="inline-flex items-center gap-1.5">
