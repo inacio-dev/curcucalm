@@ -14,7 +14,9 @@ import gluten from '../assets/gluten-free.png'
 import natural from '../assets/natural.png'
 import selo from '../assets/selo.png'
 import vegano from '../assets/vegano.png'
+import scrollTo from '../utils/scrollTo'
 import Coupon from './Coupon'
+import UseModeLink from './UseModeLink'
 
 type OrderProps = {
   searchParams: { [key: string]: string | string[] | undefined }
@@ -190,9 +192,7 @@ export default function Order(props: OrderProps) {
               Aliviar Dores Musculares e Articulares, Combater a Inflamação, Recuperar a Vitalidade
               e Promover o Bem-Estar Geral.
             </p>
-            <p className="my-5 text-brand-palatinate-blue underline">
-              <strong>modo de uso</strong>
-            </p>
+            <UseModeLink />
             <p>
               <strong>Garantia</strong> de resultados ou o seu dinheiro de volta!
             </p>
