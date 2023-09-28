@@ -204,7 +204,7 @@ export default function Order(props: OrderProps) {
       <div className="col-span-1 hidden h-[450px] max-h-[450px] w-full items-center justify-center md:col-span-5 md:flex">
         <div className="relative flex h-full w-full flex-col items-center justify-center rounded-lg bg-slate-light-4 shadow-md">
           <Image src={selo} alt="" className="absolute right-5 top-5" />
-          {/* <Image src={selectedImage} alt="" className="h-auto w-auto" /> */}
+          <Image src={selectedImage} alt="" className="h-auto w-auto" />
 
           <div className="grid grid-cols-2 gap-4 pt-2 text-[14px]">
             <div className="inline-flex items-center gap-1.5">
@@ -232,12 +232,11 @@ export default function Order(props: OrderProps) {
           <ul className="mt-[30px] flex flex-wrap gap-4 md:max-w-[592px] [&>*]:flex-[1_1_154px]">
             {quantityVariants.map((quantity, index) => (
               <li key={index} className="inline-flex">
-                <Link
-                  href={{
-                    query: { quantity, coupon: selectedCoupon },
-                  }}
-                  replace
-                  scroll={false}
+                <a
+                  href={`?${new URLSearchParams({
+                    quantity,
+                    coupon: selectedCoupon,
+                  })}`}
                   className={clsx(
                     'flex h-[52px] w-full items-center justify-center rounded-lg border-2 px-[46px] text-center font-normal transition-colors duration-300 hover:border-slate-dark-6 hover:font-bold',
                     selectedQuantity === quantity ? 'border-slate-dark-4' : 'border-slate-light-4',
@@ -251,7 +250,7 @@ export default function Order(props: OrderProps) {
                       ? 'frascos + 1'
                       : 'frascos'}
                   </span>
-                </Link>
+                </a>
               </li>
             ))}
           </ul>
