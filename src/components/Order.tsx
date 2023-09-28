@@ -20,7 +20,8 @@ import UseModeLink from './UseModeLink'
 import WhatsAppLink from './WhatsappLink'
 
 type OrderProps = {
-  searchParams: { [key: string]: string | string[] | undefined }
+  quantity: string
+  coupon: string
 }
 
 const quantityVariants = ['5', '3', '1']
@@ -77,9 +78,9 @@ const quantityToDetailsMap: { [key: string]: detailsProps } = {
   },
 }
 
-export default function Order(props: OrderProps) {
-  const selectedQuantity = (props.searchParams.quantity || '5') as string
-  const selectedCoupon = (props.searchParams.coupon || '') as string
+export default function Order({ quantity, coupon }: OrderProps) {
+  const selectedQuantity = (quantity || '5') as string
+  const selectedCoupon = (coupon || '') as string
   const selectedImage =
     selectedCoupon === 'queromais'
       ? quantityToImagePlusMap[selectedQuantity] || fivePlusFrascosLg
@@ -232,11 +233,13 @@ export default function Order(props: OrderProps) {
           <ul className="mt-[30px] flex flex-wrap gap-4 md:max-w-[592px] [&>*]:flex-[1_1_154px]">
             {quantityVariants.map((quantity, index) => (
               <li key={index} className="inline-flex">
-                <a
+                <Link
                   href={`?${new URLSearchParams({
                     quantity,
                     coupon: selectedCoupon,
                   })}`}
+                  replace
+                  scroll={false}
                   className={clsx(
                     'flex h-[52px] w-full items-center justify-center rounded-lg border-2 px-[46px] text-center font-normal transition-colors duration-300 hover:border-slate-dark-6 hover:font-bold',
                     selectedQuantity === quantity ? 'border-slate-dark-4' : 'border-slate-light-4',
@@ -250,7 +253,7 @@ export default function Order(props: OrderProps) {
                       ? 'frascos + 1'
                       : 'frascos'}
                   </span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
