@@ -6,6 +6,8 @@ import gluten from '../assets/gluten-free.png'
 import manCover from '../assets/man-cover.png'
 import natural from '../assets/natural.png'
 import vegano from '../assets/vegano.png'
+import scrollTo from '../utils/scrollTo'
+import ScrollButton from './ScrollButton'
 
 export default function Initital() {
   return (
@@ -45,13 +47,16 @@ export default function Initital() {
             bem-estar. Experimente o <strong>Curcucalm</strong> e aproveite os benefícios.
           </p>
 
-          <button className="mt-6 h-[42px] rounded-lg bg-brand-pine-green px-[44px] text-sm font-bold uppercase text-slate-light-3 md:mt-[30px] md:px-[65px] md:text-base lg:px-[65px]">
-            Saiba mais
-          </button>
+          <ScrollButton
+            scrollId="carousel"
+            className="mt-6 h-[42px] rounded-lg bg-brand-pine-green px-[44px] text-sm font-bold uppercase text-slate-light-3 md:mt-[30px] md:px-[65px] md:text-base lg:px-[65px]"
+          >
+            Saiba Mais
+          </ScrollButton>
         </div>
       </div>
 
-      <div className="relative grid h-[83px] grid-cols-[246px_1fr] md:grid-cols-[493px_1fr]">
+      <div className="relative grid h-[83px] grid-cols-[210px_1fr] sm:grid-cols-[320px_1fr] md:grid-cols-[493px_1fr] lg:grid-cols-[800px_1fr] 2xl:grid-cols-[1280px_1fr]">
         <div className="bg-brand-cocoa-brown" />
         <div className="bg-brand-pine-green" />
         <Image src={frascos} alt="" className="absolute bottom-[52px] right-0 lg:right-10" />
