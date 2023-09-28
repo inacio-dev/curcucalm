@@ -14,6 +14,7 @@ import gluten from '../assets/gluten-free.png'
 import natural from '../assets/natural.png'
 import selo from '../assets/selo.png'
 import vegano from '../assets/vegano.png'
+import Coupon from './Coupon'
 
 type OrderProps = {
   searchParams: { [key: string]: string | string[] | undefined }
@@ -34,6 +35,7 @@ type detailsProps = {
   'cred-price': number
   parcel: number
   link: string
+  'plus-link': string
 }
 
 const quantityToDetailsMap: { [key: string]: detailsProps } = {
@@ -44,6 +46,7 @@ const quantityToDetailsMap: { [key: string]: detailsProps } = {
     'cred-price': 417,
     parcel: 41.87,
     link: 'https://go.perfectpay.com.br/PPU38CMSUI7',
+    'plus-link': 'https://go.perfectpay.com.br/PPU38CMSUI9',
   },
   '3': {
     'full-price': 594,
@@ -52,6 +55,7 @@ const quantityToDetailsMap: { [key: string]: detailsProps } = {
     'cred-price': 317,
     parcel: 31.83,
     link: 'https://go.perfectpay.com.br/PPU38CMSUI4',
+    'plus-link': 'https://go.perfectpay.com.br/PPU38CMSUI6',
   },
   '1': {
     'full-price': 327,
@@ -60,24 +64,64 @@ const quantityToDetailsMap: { [key: string]: detailsProps } = {
     'cred-price': 217,
     parcel: 21.79,
     link: 'https://go.perfectpay.com.br/PPU38CMSUI1',
+    'plus-link': '',
   },
 }
 
 export default function Order(props: OrderProps) {
   const selectedQuantity = (props.searchParams.quantity || '5') as string
+  const selectedCoupon = (props.searchParams.coupon || '') as string
   const selectedImage = quantityToImageMap[selectedQuantity] || fiveFrascosLg
+
+  const selectedCouponLink =
+    selectedCoupon === 'queromais'
+      ? selectedQuantity !== '1'
+        ? quantityToDetailsMap[selectedQuantity]['plus-link'] ||
+          quantityToDetailsMap['5']['plus-link']
+        : quantityToDetailsMap[selectedQuantity]['link'] || quantityToDetailsMap['5']['link']
+      : quantityToDetailsMap[selectedQuantity]['link'] || quantityToDetailsMap['5']['link']
 
   return (
     <section
       id="order"
-      className="mx-auto mt-20 grid w-full max-w-[1280px] grid-cols-12 items-start justify-center px-3.5 text-slate-dark-4 md:px-8"
+      className="mx-auto mt-20 grid w-full max-w-[1280px] grid-cols-1 items-start justify-center px-3.5 text-slate-dark-4 md:grid-cols-12 md:px-8"
     >
-      <div className="col-span-7 w-full">
+      <div className="col-span-1 w-full justify-center md:col-span-7">
         <h2 className="text-center text-[32px] font-bold uppercase leading-[48px] md:text-left md:text-[48px]">
           Monte seu pedido!
         </h2>
 
-        <div className="mt-1 hidden items-center justify-start gap-2 md:flex">
+        <div className="col-span-1 my-10 flex max-h-[554px] w-full items-center justify-center md:hidden">
+          <div className="relative h-full w-full rounded-lg bg-slate-light-4 px-20 pb-4 pt-20 shadow-md">
+            <Image src={selo} alt="" className="absolute right-14 top-14" />
+            <Image
+              src={selectedImage}
+              alt=""
+              className="md:h-[152px] md:w-[152px] lg:h-auto lg:w-auto"
+            />
+
+            <div className="grid grid-cols-2 gap-4 pt-2 text-[14px]">
+              <div className="inline-flex items-center gap-1.5">
+                <Image src={gluten} alt="" />
+                <span>Gluten Free</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5">
+                <Image src={vegano} alt="" />
+                <span>Vegano</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5">
+                <Image src={natural} alt="" />
+                <span>100% Natural</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5">
+                <Image src={eco} alt="" />
+                <span>Eco Friendly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-1 flex items-center justify-center gap-2 md:justify-start">
           <div className="flex">
             <StarRateIcon className="fill-[#FF8500]" />
             <StarRateIcon className="fill-[#FF8500]" />
@@ -89,9 +133,9 @@ export default function Order(props: OrderProps) {
             4.8 <span className="text-[#687076]">(Total de 187 reviews)</span>
           </p>
 
-          <button>
+          {/* <button>
             <ShareIcon className="fill-slate-dark-4" />
-          </button>
+          </button> */}
         </div>
 
         <div className="flex w-full flex-col space-y-2 pt-6">
@@ -151,7 +195,7 @@ export default function Order(props: OrderProps) {
         </div>
       </div>
 
-      <div className="col-span-5 hidden max-h-[554px] w-full items-center justify-center md:flex">
+      <div className="col-span-1 hidden max-h-[554px] w-full items-center justify-center md:col-span-5 md:flex">
         <div className="relative h-full w-full rounded-lg bg-slate-light-4 px-20 pb-4 pt-20 shadow-md">
           <Image src={selo} alt="" className="absolute right-14 top-14" />
           <Image
@@ -181,7 +225,7 @@ export default function Order(props: OrderProps) {
         </div>
       </div>
 
-      <div className="col-span-12 w-full max-w-[592px]">
+      <div className="col-span-1 w-full max-w-[592px] md:col-span-12">
         <div>
           <ul className="mt-[30px] flex flex-wrap gap-4 md:max-w-[592px] [&>*]:flex-[1_1_154px]">
             {quantityVariants.map((quantity, index) => (
@@ -189,6 +233,7 @@ export default function Order(props: OrderProps) {
                 <Link
                   href={`?${new URLSearchParams({
                     quantity,
+                    coupon: selectedCoupon,
                   })}`}
                   replace
                   scroll={false}
@@ -198,7 +243,12 @@ export default function Order(props: OrderProps) {
                   )}
                 >
                   <span className={clsx(selectedQuantity === quantity && 'font-bold')}>
-                    {quantity} {quantity === '1' ? 'frasco' : 'frascos'}
+                    {quantity}{' '}
+                    {quantity === '1'
+                      ? 'frasco'
+                      : selectedCoupon === 'queromais'
+                      ? 'frascos + 1'
+                      : 'frascos'}
                   </span>
                 </Link>
               </li>
@@ -206,101 +256,62 @@ export default function Order(props: OrderProps) {
           </ul>
         </div>
 
-        <div className="mt-[18px]">
-          <div className="flex justify-between rounded-lg border-2 border-[#ECEEF0] md:max-w-[312px]">
-            <input
-              className="h-[43px] px-4 font-medium text-slate-dark-10 placeholder:uppercase"
-              placeholder="Adicionar cupom"
-            />
+        <div className="flex items-end space-x-4">
+          <Coupon quantity={selectedQuantity} coupon={selectedCoupon} />
 
-            <button className="inline-flex items-center justify-center rounded-lg bg-brand-palatinate-blue px-3">
-              <PlayArrowIcon />
-            </button>
-          </div>
+          {selectedCoupon === 'queromais' ? (
+            <>
+              {selectedQuantity === '1' ? (
+                <span className="max-w-[250px] text-sm font-semibold text-brand-crimson">
+                  Compras individuais de 1 frasco não se qualificam para a promoção.
+                </span>
+              ) : (
+                <span className="max-w-[250px] text-sm font-semibold text-brand-pine-green">
+                  Ganhe um frasco adicional gratuitamente com este cupom!
+                </span>
+              )}
+            </>
+          ) : (
+            <>
+              {selectedCoupon !== '' && (
+                <span className="max-w-[250px] text-sm font-semibold text-brand-crimson">
+                  Cupom inválido!
+                </span>
+              )}
+            </>
+          )}
         </div>
 
         <div className="mt-5 flex flex-col gap-5 md:flex-row md:items-center md:gap-[50px]">
           <Link
-            href={
-              quantityToDetailsMap[selectedQuantity]['link'] || quantityToDetailsMap['5']['link']
-            }
+            href={selectedCouponLink}
             className="inline-flex h-[42px] w-full items-center justify-center rounded-lg bg-brand-crimson font-bold uppercase text-slate-light-3 md:max-w-[310px]"
           >
             Comprar agora
           </Link>
 
-          <button className="flex items-center justify-center gap-3.5">
+          <Link
+            href="https://wa.me/5511930455232"
+            className="flex items-center justify-center gap-3.5"
+          >
             <WhatsAppIcon />
             <span className="font-bold uppercase">Fale conosco</span>
-          </button>
-        </div>
-      </div>
-
-      {/* 
-
-      <div className="md:hidden">
-        <div className="relative mx-auto mt-3 flex h-[325px] w-[336px] flex-col items-center justify-center gap-4 rounded-[16px] bg-[#ECEEF0] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-          <Image src={selo} alt="" className="absolute right-4 top-2" />
-          <Image src={frascos} alt="" />
-          <div className="grid grid-cols-2 gap-4 text-[14px]">
-            <div className="inline-flex items-center gap-1.5">
-              <Image src={gluten} alt="" />
-              <span>Gluten Free</span>
-            </div>
-            <div className="inline-flex items-center gap-1.5">
-              <Image src={vegano} alt="" />
-              <span>Vegano</span>
-            </div>
-            <div className="inline-flex items-center gap-1.5">
-              <Image src={natural} alt="" />
-              <span>100% Natural</span>
-            </div>
-            <div className="inline-flex items-center gap-1.5">
-              <Image src={eco} alt="" />
-              <span>Eco Friendly</span>
-            </div>
-          </div>
+          </Link>
         </div>
 
-        <div className="mx-auto mt-4 flex w-[350px] items-center gap-2">
-          <div className="flex">
-            <StarRateIcon />
-            <StarRateIcon />
-            <StarRateIcon />
-            <StarRateIcon />
-            <StarRateIcon />
-          </div>
-          <p className="font-bold">
-            4.8 <span className="text-[#687076]">(Total de 187 reviews)</span>
-          </p>
-          <div>
-            <ShareIcon />
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-[35px] md:flex md:justify-between">
-        
-
-        
-      </div>
-
-      <div>
-        
-
-        <div className="mt-[52px] text-[14px] uppercase leading-[26px] md:hidden">
+        <div className="mt-[40px] block max-w-[336px] text-[16px] uppercase leading-[26px] md:hidden lg:max-w-[484px]">
           <p>
             Aliviar Dores Musculares e Articulares, Combater a Inflamação, Recuperar a Vitalidade e
             Promover o Bem-Estar Geral.
           </p>
-          <p className="text-palatinate-blue my-5 underline">
+          <p className="my-5 text-brand-palatinate-blue underline">
             <strong>modo de uso</strong>
           </p>
           <p>
             <strong>Garantia</strong> de resultados ou o seu dinheiro de volta!
           </p>
         </div>
-      </div> */}
+      </div>
     </section>
   )
 }
