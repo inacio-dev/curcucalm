@@ -39,6 +39,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`,
           }}
         />
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+              }, false);
+            `,
+          }}
+        />
       </head>
       <body>
         <noscript
