@@ -14,8 +14,8 @@ import gluten from '../assets/gluten-free.png'
 import natural from '../assets/natural.png'
 import selo from '../assets/selo.png'
 import vegano from '../assets/vegano.png'
-import scrollTo from '../utils/scrollTo'
 import Coupon from './Coupon'
+import CreateOrderLink from './CreateOrderLink'
 import UseModeLink from './UseModeLink'
 
 type OrderProps = {
@@ -284,12 +284,13 @@ export default function Order(props: OrderProps) {
         </div>
 
         <div className="mt-5 flex flex-col gap-5 md:flex-row md:items-center md:gap-[50px]">
-          <Link
-            href={selectedCouponLink}
-            className="inline-flex h-[42px] w-full items-center justify-center rounded-lg bg-brand-crimson font-bold uppercase text-slate-light-3 md:max-w-[310px]"
-          >
-            Comprar agora
-          </Link>
+          <CreateOrderLink
+            selectedCouponLink={selectedCouponLink}
+            coupon={selectedCoupon}
+            value={
+              quantityToDetailsMap[selectedQuantity]['price'] || quantityToDetailsMap['5']['price']
+            }
+          />
 
           <Link
             href="https://wa.me/5511930455232"
