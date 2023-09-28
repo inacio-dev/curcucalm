@@ -2,6 +2,7 @@ import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu'
 
 import logo from '../assets/logo-desktop.png'
+import ScrollButton from './ScrollButton'
 
 export default function Header() {
   return (
@@ -15,9 +16,12 @@ export default function Header() {
         <Image src={logo} alt="" className="w-[74px] md:w-[135px] lg:w-auto" />
 
         <div className="flex items-center gap-[18px] md:gap-[35px]">
-          <button className="h-[32px] rounded-lg bg-brand-crimson px-3.5 text-xs font-bold uppercase text-slate-light-3 md:h-[42px] md:px-[30px] md:text-base">
-            Comprar agora
-          </button>
+          <ScrollButton
+            scrollId="order"
+            className="h-[32px] rounded-lg bg-brand-crimson px-3.5 text-xs font-bold uppercase text-slate-light-3 md:h-[42px] md:px-[30px] md:text-base"
+          >
+            comprar agora
+          </ScrollButton>
 
           <button className="block lg:hidden">
             <MenuIcon className="fill-slate-dark-4" />
