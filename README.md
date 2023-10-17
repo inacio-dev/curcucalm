@@ -8,7 +8,7 @@ This repository contains the implementation of a functional curcucalm website, c
 - [Deploy on Vercel](#deploy-on-vercel)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
-- [Using Astro](#using-astro)
+- [Using Next](#using-next)
 - [Code Formatting](#code-formatting)
 - [Contribution](#contribution)
 - [Author](#author)
