@@ -51,8 +51,8 @@ const quantityToDetailsMap: { [key: string]: detailsProps } = {
     discount: 66,
     'cred-price': 417,
     parcel: 41.87,
-    link: 'https://go.perfectpay.com.br/PPU38CMSUI7',
-    'plus-link': 'https://go.perfectpay.com.br/PPU38CMSUI9',
+    link: '',
+    'plus-link': '',
   },
   '3': {
     'full-price': 594,
@@ -60,8 +60,8 @@ const quantityToDetailsMap: { [key: string]: detailsProps } = {
     discount: 50,
     'cred-price': 317,
     parcel: 31.83,
-    link: 'https://go.perfectpay.com.br/PPU38CMSUI4',
-    'plus-link': 'https://go.perfectpay.com.br/PPU38CMSUI6',
+    link: '',
+    'plus-link': '',
   },
   '1': {
     'full-price': 327,
@@ -69,7 +69,7 @@ const quantityToDetailsMap: { [key: string]: detailsProps } = {
     discount: 40,
     'cred-price': 217,
     parcel: 21.79,
-    link: 'https://go.perfectpay.com.br/PPU38CMSUI1',
+    link: '',
     'plus-link': '',
   },
 }
@@ -88,7 +88,7 @@ export default function Order() {
     selectedCoupon === 'queromais'
       ? selectedQuantity !== '1'
         ? quantityToDetailsMap[selectedQuantity]['plus-link'] ||
-        quantityToDetailsMap['5']['plus-link']
+          quantityToDetailsMap['5']['plus-link']
         : quantityToDetailsMap[selectedQuantity]['link'] || quantityToDetailsMap['5']['link']
       : quantityToDetailsMap[selectedQuantity]['link'] || quantityToDetailsMap['5']['link']
 
@@ -245,8 +245,8 @@ export default function Order() {
                     {quantity === '1'
                       ? 'frasco'
                       : selectedCoupon === 'queromais'
-                        ? 'frascos + 1'
-                        : 'frascos'}
+                      ? 'frascos + 1'
+                      : 'frascos'}
                   </span>
                 </button>
               </li>

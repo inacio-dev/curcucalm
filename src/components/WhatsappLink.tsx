@@ -6,7 +6,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 export default function WhatsAppLink() {
   return (
     <Link
-      href="https://wa.me/5511930455232"
+      href=""
       onClick={() => dataLayerPush}
       className="flex items-center justify-center gap-3.5"
     >
