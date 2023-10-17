@@ -1,6 +1,6 @@
 # Curcucalm Site
 
-This re pository contains the implementation of a functional curcucalm website, created according to the design guidelines provided by myself in the [Figma Design](https://www.figma.com/file/4VxinYdn50OLSO7hG8oJxF/Curcucalm?type=design&mode=design&t=EmB9VcWE58TtV7G6-1). The project was developed using the Next framework and is fully responsive, adapting to any screen size.
+This repository contains the implementation of a functional curcucalm website, created according to the design guidelines provided by myself in the [Figma Design](https://www.figma.com/file/4VxinYdn50OLSO7hG8oJxF/Curcucalm?type=design&mode=design&t=EmB9VcWE58TtV7G6-1). The project was developed using the Next framework and is fully responsive, adapting to any screen size.
 
 ## Table of contents
 
